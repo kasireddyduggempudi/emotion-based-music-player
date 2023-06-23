@@ -9,6 +9,7 @@ import Update_Model
 import glob
 import random
 import eel
+import base64
 #import winsound
 
 frequency=2500
@@ -122,7 +123,13 @@ def getEmotion():
             break
         elif count==10:
             fishface.read("model.xml")
-            return identify_emotions()
+            try:
+                f = open("images/main0.jpg", 'rb')
+                data = f.read()
+                data = base64.b64encode(data).decode("utf-8")
+            except:
+                data = None
+            return [identify_emotions(), data]
             break
 
 

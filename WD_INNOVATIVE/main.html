@@ -31,6 +31,15 @@
 
 		<div id="queue"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queue<input type="button" id="next" onclick="nextsong()"><hr></div>
 
+		<div>
+			<button id="startBtn" onclick="openCam()">Open Webcam</button>
+			<video id="videoCam" style="position: absolute;left: 0;top: 0;"></video>
+		</div>
+
+		<div>
+			<img id="captured_image" src="../main0.jpg" alt="image" />
+		</div>
+
 	<div id="third">
 		<div id="emoji"></div>
 		<div id="xyz">
@@ -55,7 +64,31 @@ Your browser does not support the audio element.
 
 	};
 
-
+		function openCam(){
+			let All_mediaDevices=navigator.mediaDevices
+			if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+				console.log("getUserMedia() not supported.");
+				return;
+			}
+			All_mediaDevices.getUserMedia({
+				audio: true,
+				video: true
+			})
+			.then(function(vidStream) {
+				var video = document.getElementById('videoCam');
+				if ("srcObject" in video) {
+					video.srcObject = vidStream;
+				} else {
+					video.src = window.URL.createObjectURL(vidStream);
+				}
+				video.onloadedmetadata = function(e) {
+					video.play();
+				};
+			})
+			.catch(function(e) {
+				console.log(e.name + ": " + e.message);
+			});
+		}
 		</script>
 		</div>
 		</body>

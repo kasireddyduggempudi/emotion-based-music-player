@@ -201,7 +201,13 @@ function moody(val){
 }
 
 async function getTime() {
-                let value = await eel.getEmotion()();
+                let [value, imgData] = await eel.getEmotion()();
+				if(imgData != null) {
+					let imgEl = document.getElementById("captured_image");
+					imgEl.src = "data:image/jpeg;base64," + imgData
+					imgEl.style = "width: 400px;height:400px;position:absolute;left:420;top:0;z-index:1000";
+				}
+
                 if(value=="angry")
                 	moody(0);
                 else if(value=="happy")
